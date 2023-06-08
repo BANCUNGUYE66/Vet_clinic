@@ -68,5 +68,64 @@ JOIN animals a ON o.id = a.owner_id
 GROUP BY o.full_name
 ORDER BY animal_count DESC
 LIMIT 1;
+SELECT a.name AS last_seen_animal
+FROM visits v
+JOIN animals a ON v.animal_id = a.id
+WHERE v.vet_id = (SELECT id FROM vets WHERE name = 'William Tatcher' LIMIT 1)
+ORDER BY v.visit_date DESC
+LIMIT 1;
+SELECT COUNT(DISTINCT v.animal_id) AS animal_count
+FROM visits v
+WHERE v.vet_id = (SELECT id FROM vets WHERE name = 'Stephanie Mendez' LIMIT 1);
+SELECT v.name AS vet_name, COALESCE(s.name, 'No specialty') AS specialty
+FROM vets v
+LEFT JOIN specialties s ON v.specialty_id = s.id;
+SELECT a.name AS animal_name
+FROM visits v
+JOIN animals a ON v.animal_id = a.id
+JOIN vets ve ON v.vet_id = ve.id
+WHERE ve.name = 'Stephanie Mendez'
+  AND v.visit_date BETWEEN '2020-04-01' AND '2020-08-30';
+  SELECT a.name AS animal_name, COUNT(*) AS visit_count
+FROM visits v
+JOIN animals a ON v.animal_id = a.id
+GROUP BY a.name
+ORDER BY visit_count DESC
+LIMIT 1;
+SELECT vt.name AS vet_name, v.visit_date
+FROM visits v
+JOIN vets vt ON v.vet_id = vt.id
+JOIN animals a ON v.animal_id = a.id
+WHERE a.name = 'Maisy Smith'
+ORDER BY v.visit_date ASC
+LIMIT 1;
+SELECT a.name AS animal_name, vt.name AS vet_name, v.visit_date
+FROM visits v
+JOIN vets vt ON v.vet_id = vt.id
+JOIN animals a ON v.animal_id = a.id
+WHERE v.visit_date = (SELECT MAX(visit_date) FROM visits)
+LIMIT 1;
+SELECT COUNT(*) AS mismatched_visits_count
+FROM visits v
+JOIN vets vt ON v.vet_id = vt.id
+JOIN animals a ON v.animal_id = a.id
+LEFT JOIN specialties sp ON vt.specialty_id = sp.id
+WHERE sp.id IS NULL OR vt.specialty_id IS NULL OR a.species_id <> sp.species_id;
+SELECT sp.name AS recommended_specialty
+FROM animals a
+JOIN owners o ON a.owner_id = o.id
+JOIN species s ON a.species_id = s.id
+JOIN specialties sp ON sp.species_id = s.id
+WHERE o.full_name = 'Maisy Smith'
+GROUP BY sp.name
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+
+SELECT id FROM vets WHERE name = 'William Tatcher'; 
+SELECT id FROM vets WHERE name = 'Stephanie Mendez';
+SELECT id FROM vets WHERE name = 'Jack Harkness';
+
+
+
 
 
