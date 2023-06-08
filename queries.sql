@@ -121,7 +121,9 @@ GROUP BY sp.name
 ORDER BY COUNT(*) DESC
 LIMIT 1;
 
-
+SELECT id FROM vets WHERE name = 'William Tatcher'; 
+SELECT id FROM vets WHERE name = 'Stephanie Mendez';
+SELECT id FROM vets WHERE name = 'Jack Harkness';
 
 
 
