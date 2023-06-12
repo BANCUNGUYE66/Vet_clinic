@@ -124,8 +124,11 @@ LIMIT 1;
 SELECT id FROM vets WHERE name = 'William Tatcher'; 
 SELECT id FROM vets WHERE name = 'Stephanie Mendez';
 SELECT id FROM vets WHERE name = 'Jack Harkness';
+SELECT COUNT(*) FROM visits where animal_id = 4;
+SELECT * FROM visits where vet_id = 2;
+SELECT * FROM owners where email = 'owner_18327@mail.com';
 
 
-
-
-
+EXPLAIN SELECT COUNT(*) FROM visits WHERE animal_id = 4;
+EXPLAIN ANALYZE SELECT * FROM visits WHERE vet_id = 2;
+EXPLAIN ANALYZE SELECT * FROM owners where email = 'owner_18327@mail.com';
